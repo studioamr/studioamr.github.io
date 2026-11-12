@@ -16,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FF4D2E'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23FFD23F'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100..900&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fff;--ink:#0b0b0b;--mute:#8a8a8a;--rule:#cfcfcf;--tile:#f2f2f2;
@@ -142,9 +142,53 @@ body.night .row{border-color:#2a2a2a}
   .nums{grid-template-columns:1fr 1fr}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.line>span,.tile,.reveal{transform:none!important;opacity:1!important}}
+
+/* cursor */
+@media (pointer:fine){body,a,button{cursor:none}}
+#cur{position:fixed;left:0;top:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--red);z-index:200;pointer-events:none;transition:width .3s,height .3s,margin .3s,background .4s;mix-blend-mode:multiply}
+#cur.big{width:64px;height:64px;margin:-32px 0 0 -32px}
+body.night #cur{mix-blend-mode:screen}
+@media (pointer:coarse){#cur{display:none}}
+/* intro curtain */
+#intro{position:fixed;inset:0;z-index:150;display:grid;grid-template-columns:1fr 1fr;pointer-events:none}
+#intro .half{background:#0b0b0b;transition:transform 1.2s cubic-bezier(.8,0,.15,1)}
+#intro.go .half:first-child{transform:translateY(-100%)}
+#intro.go .half:last-child{transform:translateY(100%)}
+#intro .meter{position:absolute;left:16px;right:16px;bottom:16px;display:flex;justify-content:space-between;align-items:flex-end;color:#fff;transition:opacity .4s}
+#intro.go .meter{opacity:0}
+#intro .pct{font-weight:800;font-size:clamp(80px,14vw,220px);letter-spacing:-.06em;line-height:.8;font-variant-numeric:tabular-nums}
+#intro .bars{display:flex;gap:6px;align-items:flex-end;height:120px}
+#intro .bars i{display:block;width:16px;border-radius:2px;height:0;transition:height .25s}
+/* hero 3D */
+#hero3d{position:absolute;inset:0;width:100%;height:100vh;z-index:0}
+.intro>*:not(#hero3d):not(.rule){position:relative;z-index:2}
+.intro .avatar,.intro .based{position:absolute}
+.hero .role{position:absolute}
+/* ink letters */
+@property --r{syntax:'<percentage>';inherits:false;initial-value:0%}
+.ch{display:inline-block;--r:0%;-webkit-mask:radial-gradient(circle at var(--mx,50%) var(--my,60%),#000 var(--r),transparent calc(var(--r) + 18%));mask:radial-gradient(circle at var(--mx,50%) var(--my,60%),#000 var(--r),transparent calc(var(--r) + 18%));transition:--r 1.3s cubic-bezier(.3,.7,.1,1),font-weight .35s ease,transform .35s ease;font-weight:700}
+.inked .ch{--r:160%}
+.inkwrap{filter:url(#ink)}
+.line>span{transform:none!important}
+/* pinned 3D capabilities */
+.caps{height:calc(100vh + 2600px);padding:0}
+.caps .pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;perspective:1400px}
+.caps .rail{overflow:visible;scroll-snap-type:none;cursor:default;will-change:transform;padding-left:var(--col)}
+.cap{transform-style:preserve-3d}
+.cap:hover{transform:none}
+.prog{height:3px;margin:22px 16px 0;background:var(--rule);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yel),var(--blu),var(--grn),var(--pur),var(--pnk),var(--cya),var(--red),var(--org))}
+/* color wipe into night */
+.close{clip-path:circle(var(--w,0%) at 50% 40%);background:#0b0b0b;color:#fff}
+.wipe-bg{position:relative;background:linear-gradient(135deg,var(--pnk),var(--org),var(--yel))}
+@media (max-width:860px){.caps{height:auto}.caps .pin{position:static;height:auto}.caps .rail{overflow-x:auto;padding-left:16px}.close{clip-path:none}}
+@media (prefers-reduced-motion:reduce){.ch{--r:160%!important}.inkwrap{filter:none}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ink" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7" result="n"/><feDisplacementMap id="inkmap" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<div id="cur"></div>
+<div id="intro"><div class="half"></div><div class="half"></div><div class="meter"><div class="pct" id="pct">0</div><div class="bars" id="bars"></div></div></div>
 <div class="top">
   <a class="logo" href="#top" aria-label="Studio AMR home"></a>
   <button class="menu" id="menuBtn" type="button">Menu</button>
@@ -160,6 +204,7 @@ body.night .row{border-color:#2a2a2a}
 
 <main id="top">
 <section class="intro">
+  <canvas id="hero3d" aria-hidden="true"></canvas>
   <div class="rule"></div>
   <div class="avatar" aria-hidden="true"><i></i><b>AMR</b></div>
   <div class="based small">Based in Morelia<br>Working w/ <span>Northpoint</span></div>
@@ -199,7 +244,7 @@ body.night .row{border-color:#2a2a2a}
   <div class="copy small reveal">© '26</div>
 </section>
 
-<section class="caps" id="caps">
+<section class="caps" id="caps"><div class="pin">
   <div class="caps-head reveal">
     <h2 class="big">What we build</h2>
     <span class="yrs">10</span>
@@ -237,7 +282,8 @@ body.night .row{border-color:#2a2a2a}
       <svg class="art" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#FF4D2E" stroke-width="3"/><path d="M50 22 L50 50 L70 62" stroke="#0b0b0b" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
       <div><h3>Care &amp;<br>growth</h3><ul><li>Monthly maintenance and updates</li><li>SEO, speed and share previews</li><li>We read the numbers with you</li></ul><div class="stack">Analytics · Search Console</div></div></article>
   </div>
-</section>
+  <div class="prog"><i id="progbar"></i></div>
+</div></section>
 
 <section class="nums">
   <div class="num reveal" style="background:var(--yel)"><b>26</b><span>Products live right now</span></div>
@@ -275,7 +321,7 @@ body.night .row{border-color:#2a2a2a}
     <div class="row"><span>Measure</span><span>Numbers after launch</span></div></div></div>
 </section>
 
-<section class="close" id="close">
+<div class="wipe-bg"><section class="close" id="close">
   <div class="rule"></div>
   <div class="big">
     <div class="s1 reveal">Every product</div>
@@ -289,31 +335,120 @@ body.night .row{border-color:#2a2a2a}
     <a class="mail" href="mailto:andremacouzetruiz@gmail.com?subject=Project%20with%20Studio%20AMR">andremacouzetruiz@gmail.com</a>
   </div>
   <div class="word" aria-hidden="true"><span>studio</span><span>amr</span></div>
-</section>
+</section></div>
 </main>
 
 <script>
-requestAnimationFrame(()=>setTimeout(()=>document.body.classList.add('loaded'),80));
+// split big headings into ink letters
+function splitInk(el){
+  if(el.dataset.split)return;el.dataset.split=1;
+  const walk=n=>{[...n.childNodes].forEach(c=>{
+    if(c.nodeType===3){const f=document.createDocumentFragment();[...c.textContent].forEach(ch=>{if(/\s/.test(ch)){if(c.textContent.trim())f.appendChild(document.createTextNode(' '));return}const s=document.createElement('span');s.className='ch';s.textContent=ch;s.style.setProperty('--mx',(20+Math.random()*60)+'%');s.style.setProperty('--my',(30+Math.random()*50)+'%');s.style.transitionDelay=(Math.random()*.45).toFixed(2)+'s';f.appendChild(s)});c.replaceWith(f)}
+    else if(c.nodeType===1&&c.tagName!=='SVG')walk(c)})};
+  walk(el);el.classList.add('inkwrap');
+}
+const inkTargets=[...document.querySelectorAll('.hero .big,.slogan,.caps-head .big,.tools-head .big,.close .big,.word')];
+inkTargets.forEach(splitInk);
+const inkmap=document.getElementById('inkmap');
+function inkIn(el){if(el.classList.contains('inked'))return;el.classList.add('inked');
+  // a shared turbulence settles from blotchy to crisp
+  let s=70;(function k(){s*=.93;inkmap.setAttribute('scale',s.toFixed(2));if(s>.4)requestAnimationFrame(k);else inkmap.setAttribute('scale',0)})();}
+const inkIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){inkIn(e.target);inkIO.unobserve(e.target)}}),{threshold:.2});
+// intro: counter with color bars, then curtains open and the hero inks in
+const intro=document.getElementById('intro'),pctEl=document.getElementById('pct'),bars=document.getElementById('bars');
+const bc=['#FFD23F','#2D6BFF','#FF5FA8','#2BD98A','#9B5CFF','#FF9A1F','#12C6D6','#FF4D2E'];
+bars.innerHTML=bc.map(c=>`<i style="background:${c}"></i>`).join('');
+let pv=0;const bi=[...bars.children];
+const ti=setInterval(()=>{pv=Math.min(100,pv+Math.ceil(Math.random()*7));pctEl.textContent=pv;bi.forEach((b,i)=>b.style.height=Math.max(0,Math.min(120,(pv-i*8)*1.6))+'px');
+  if(pv>=100){clearInterval(ti);setTimeout(()=>{intro.classList.add('go');document.body.classList.add('loaded');setTimeout(()=>{inkTargets.forEach(t=>inkIO.observe(t))},350);setTimeout(()=>intro.remove(),1400)},250)}},45);
+// variable weight follows the cursor across the hero letters
+const heroChars=[...document.querySelectorAll('.hero .ch')];
+addEventListener('pointermove',e=>{
+  for(const c of heroChars){const r=c.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.hypot(dx,dy),k=Math.max(0,1-d/260);
+    c.style.fontWeight=Math.round(700-480*k);c.style.transform=k?`translate(${-dx*k*.08}px,${-dy*k*.08}px)`:''}
+});
+// custom cursor
+const cur=document.getElementById('cur');let cx=innerWidth/2,cy=innerHeight/2,px=cx,py=cy;
+addEventListener('pointermove',e=>{cx=e.clientX;cy=e.clientY;cur.classList.toggle('big',!!e.target.closest('a,button,.tile,.cap'))});
+(function cl(){px+=(cx-px)*.2;py+=(cy-py)*.2;cur.style.transform=`translate(${px}px,${py}px)`;requestAnimationFrame(cl)})();
+setInterval(()=>{cur.style.background=bc[Math.floor(Math.random()*bc.length)]},900);
+// pinned horizontal rail with 3D cards, and the color wipe into the closing
+const capsSec=document.getElementById('caps'),railEl=document.getElementById('rail'),progbar=document.getElementById('progbar'),cards=[...railEl.children];
+const closeEl=document.getElementById('close'),wipe=closeEl.parentElement;
+function onScroll(){
+  if(innerWidth>860){
+    const r=capsSec.getBoundingClientRect(),total=capsSec.offsetHeight-innerHeight,p=Math.min(1,Math.max(0,-r.top/total));
+    const max=railEl.scrollWidth-innerWidth+parseFloat(getComputedStyle(railEl).paddingLeft);
+    railEl.style.transform=`translateX(${-p*max}px)`;progbar.style.width=(p*100)+'%';
+    const mid=innerWidth/2;
+    for(const c of cards){const b=c.getBoundingClientRect(),off=(b.left+b.width/2-mid)/innerWidth;c.style.transform=`rotateY(${off*-38}deg) translateZ(${-Math.abs(off)*220}px) scale(${1-Math.abs(off)*.12})`}
+    const w=wipe.getBoundingClientRect(),q=Math.min(1,Math.max(0,(innerHeight-w.top)/(innerHeight*1.1)));
+    closeEl.style.setProperty('--w',(q*150)+'%');
+  }
+}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 const panel=document.getElementById('panel');
 document.getElementById('menuBtn').onclick=()=>panel.classList.add('open');
 document.getElementById('menuX').onclick=()=>panel.classList.remove('open');
 panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>panel.classList.remove('open')));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -12% 0px'});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-new IntersectionObserver(([e])=>document.body.classList.toggle('night',e.isIntersecting),{threshold:.35}).observe(document.getElementById('close'));
+
 const logo=document.querySelector('.logo'),cols=['#FF4D2E','#FFD23F','#2BD98A','#12C6D6','#2D6BFF','#9B5CFF','#FF5FA8'];let ci=0;
 setInterval(()=>{ci=(ci+1)%cols.length;logo.style.background=cols[ci]},1200);
 const clk=document.getElementById('clock');
 function tk(){const d=new Date();clk.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
 tk();setInterval(tk,15000);
-const rail=document.getElementById('rail');let down=false,sx=0,sl=0;
-rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;sx=e.clientX;sl=rail.scrollLeft;rail.classList.add('drag')});
-addEventListener('pointermove',e=>{if(down)rail.scrollLeft=sl-(e.clientX-sx)});
-addEventListener('pointerup',()=>{down=false;rail.classList.remove('drag')});
+
 document.querySelectorAll('.tile:not(.blank)').forEach(t=>{
   t.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;t.style.transform=`perspective(500px) rotateY(${x*14}deg) rotateX(${-y*14}deg) scale(1.04)`});
   t.addEventListener('pointerleave',()=>t.style.transform='');
 });
+</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+const cv=document.getElementById('hero3d');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.toneMapping=THREE.ACESFilmicToneMapping;
+const S=new THREE.Scene();const pm=new THREE.PMREMGenerator(R);S.environment=pm.fromScene(new RoomEnvironment(),.04).texture;
+const C=new THREE.PerspectiveCamera(35,1,.1,100);C.position.z=14;
+const L=new THREE.DirectionalLight(0xffffff,1.4);L.position.set(4,6,8);S.add(L);
+const mat=c=>new THREE.MeshPhysicalMaterial({color:c,roughness:.22,metalness:0,clearcoat:1,clearcoatRoughness:.08});
+const defs=[
+ [new THREE.TorusGeometry(.62,.24,48,96),0xFFD23F,[-5.4,2.4,0]],
+ [new RoundedBoxGeometry(.9,1.6,.22,6,.16),0x2D6BFF,[5.6,2.6,-1]],
+ [new THREE.TorusKnotGeometry(.45,.16,160,24),0xFF5FA8,[4.2,-2.6,0]],
+ [new THREE.OctahedronGeometry(.8),0x2BD98A,[-4.6,-2.4,-.5]],
+ [new THREE.IcosahedronGeometry(.7,0),0x9B5CFF,[1.4,3.3,-2]],
+ [new THREE.CylinderGeometry(.6,.6,.5,6),0xFF9A1F,[-1.8,-3.4,-1]],
+ [new THREE.SphereGeometry(.5,48,48),0x12C6D6,[6.6,-.2,-2]],
+ [new THREE.ConeGeometry(.55,1.1,40),0xFF4D2E,[-6.6,.2,-1.5]]];
+const objs=defs.map(([g,c,p],i)=>{const m=new THREE.Mesh(g,mat(c));m.position.set(...p);m.userData={home:new THREE.Vector3(...p),v:new THREE.Vector3(),spin:new THREE.Vector3(Math.random()*.01,Math.random()*.012+.004,Math.random()*.008),ph:Math.random()*6};S.add(m);return m});
+function size(){const w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();const s=Math.min(1,w/1300);objs.forEach(o=>o.scale.setScalar(.6+.4*s))}
+addEventListener('resize',size);size();
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2(9,9),plane=new THREE.Plane(new THREE.Vector3(0,0,1),0),hit=new THREE.Vector3();
+let mx=0,my=0;
+addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouse.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);mx=mouse.x;my=mouse.y});
+// click a shape to fling it
+cv.style.pointerEvents='auto';
+document.querySelector('.intro').addEventListener('pointerdown',e=>{ray.setFromCamera(mouse,C);const h=ray.intersectObjects(objs)[0];if(h){h.object.userData.v.add(new THREE.Vector3((Math.random()-.5)*.6,.5,(Math.random()-.5)*.4));h.object.userData.spin.multiplyScalar(6)}});
+let entered=0;setTimeout(()=>entered=1,1500);
+const clk=new THREE.Clock();
+(function f(){
+  const t=clk.getElapsedTime(),sy=Math.min(1,scrollY/innerHeight);
+  ray.setFromCamera(mouse,C);ray.ray.intersectPlane(plane,hit);
+  for(const o of objs){const u=o.userData;
+    const target=u.home.clone();target.y+=Math.sin(t*.8+u.ph)*.25+sy*(u.home.y>0?6:-6);target.x+=sy*u.home.x*.4;
+    if(!entered)target.multiplyScalar(.15+.85*Math.min(1,t/1.5));
+    const d=o.position.distanceTo(hit);if(d<2.2){const push=o.position.clone().sub(hit).setZ(0).normalize().multiplyScalar((2.2-d)*.06);u.v.add(push)}
+    u.v.add(target.sub(o.position).multiplyScalar(.012));u.v.multiplyScalar(.9);o.position.add(u.v);
+    o.rotation.x+=u.spin.x+my*.004;o.rotation.y+=u.spin.y+mx*.004;o.rotation.z+=u.spin.z;u.spin.multiplyScalar(.985).max(new THREE.Vector3(.002,.004,.001));
+  }
+  C.position.x+=(mx*.6-C.position.x)*.04;C.position.y+=(my*.4-C.position.y)*.04;C.lookAt(0,0,0);
+  R.render(S,C);requestAnimationFrame(f);
+})();
 </script>
 </body>
 </html>
