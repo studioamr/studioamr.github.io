@@ -76,6 +76,22 @@ p.body{font-size:18px;line-height:1.6;color:#c9d3d7;margin-top:22px;max-width:46
 .btn{display:inline-block;margin-top:38px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;padding:16px 28px;border:1px solid var(--fg);transition:background .3s,color .3s}
 .btn:hover{background:var(--fg);color:#000}
 .btn.ghost{border-color:var(--line);margin-left:10px}
+.box{max-width:680px}
+.pv{display:flex;gap:12px;margin-top:22px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.pv a{flex:none;width:200px;display:block;border:1px solid var(--line);background:#000;transition:border-color .3s,transform .3s}
+.pv a:hover{border-color:var(--fg);transform:translateY(-3px)}
+.frame{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0b0f12}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s}
+.pv a:hover .frame img,.card:hover .frame img{transform:scale(1.04)}
+.pv a span,.card span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding:9px 10px}
+.reel{position:relative;z-index:10;padding:40px 0 110px;overflow:hidden}
+.reel-head{padding:0 30px 22px;text-align:center}
+.reel-track{display:flex;gap:18px;width:max-content;animation:reel 70s linear infinite;padding:0 18px}
+.reel:hover .reel-track{animation-play-state:paused}
+@keyframes reel{to{transform:translateX(-50%)}}
+.card{flex:none;width:420px;border:1px solid var(--line);background:#000;transition:border-color .3s}
+.card:hover{border-color:var(--fg)}
+.card b{display:block;padding:12px 12px 0;font-weight:700;font-stretch:112%;text-transform:uppercase;font-size:18px}
 footer{position:relative;z-index:10;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:26px 30px;border-top:1px solid var(--line)}
 .fade{opacity:0;transform:translateY(24px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.2,.8,.1,1)}
 .in .fade{opacity:1;transform:none}
@@ -89,6 +105,7 @@ footer{position:relative;z-index:10;display:flex;justify-content:space-between;g
   .it{grid-template-columns:1fr;gap:4px}
   .steps{grid-template-columns:1fr 1fr}
   .btn.ghost{margin-left:0}
+  .card{width:300px}
 }
 @media (prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}}
 </style>
@@ -126,6 +143,11 @@ footer{position:relative;z-index:10;display:flex;justify-content:space-between;g
     <div class="sub fade">Landing pages · Apps · Platforms · Trading systems. Designed, developed and measured by one studio, from the first sketch to the live link.</div>
   </div></section>
 
+  <section class="reel" aria-label="Live work">
+    <div class="reel-head"><span class="mono">Live right now · click any to open</span></div>
+    <div class="reel-track" id="reel"></div>
+  </section>
+
   <section class="ch" id="c1" data-shape="1"><div class="box">
     <div class="mono tag fade">01 · Flagship platform</div>
     <h2 class="fade" data-scramble>Northpoint</h2>
@@ -135,6 +157,7 @@ footer{position:relative;z-index:10;display:flex;justify-content:space-between;g
       <div class="it"><b>NP Journal</b><span>Scores every trade 0 to 100 against your written rules. Fills import from the broker on their own.</span><a href="https://northpointcapital.io/trading/" target="_blank" rel="noopener">Live →</a></div>
       <div class="it"><b>Community</b><span>Discord, bootcamp and program where traders run the same plan and the same journal.</span><em>Members</em></div>
     </div>
+    <div class="pv fade" data-pv="Northpoint|https://northpointcapital.io/,NP Journal|https://northpointcapital.io/trading/,Academy|https://northpointcapital.io/academia.html"></div>
   </div></section>
 
   <section class="ch right" id="c2" data-shape="2"><div class="box">
@@ -146,6 +169,7 @@ footer{position:relative;z-index:10;display:flex;justify-content:space-between;g
       <div class="it"><b>LUNES</b><span>Home and gym training with meal prep on a weekly budget. Brand, landing and app for a fitness client.</span><a href="https://studioamr.github.io/lunes/" target="_blank" rel="noopener">Live →</a></div>
       <div class="it"><b>Taller</b><span>Work orders for a family mechanic shop: one button per car, updates by WhatsApp.</span><a href="https://studioamr.github.io/taller/" target="_blank" rel="noopener">Live →</a></div>
     </div>
+    <div class="pv fade" data-pv="ABONO|https://studioamr.github.io/agrofin/,LUNES|https://studioamr.github.io/lunes/,Taller|https://studioamr.github.io/taller/"></div>
   </div></section>
 
   <section class="ch" id="c3" data-shape="3"><div class="box">
@@ -159,6 +183,7 @@ footer{position:relative;z-index:10;display:flex;justify-content:space-between;g
       <div class="it"><b>HEARTS</b><span>A complete browser game with AI opponents and ranked play.</span><a href="https://studioamr.github.io/hearts/" target="_blank" rel="noopener">Live →</a></div>
       <div class="it"><b>LOCUS</b><span>An installable app with a daily ritual, calendar and an AI reader.</span><a href="https://studioamr.github.io/locus/" target="_blank" rel="noopener">Live →</a></div>
     </div>
+    <div class="pv fade" data-pv="PARFECT|https://studioamr.github.io/parfect/,FIRMLINE|https://studioamr.github.io/firmline/,PULIRA|https://studioamr.github.io/pulira/,HEARTS|https://studioamr.github.io/hearts/,LOCUS|https://studioamr.github.io/locus/"></div>
   </div></section>
 
   <section class="ch right" id="c4" data-shape="4"><div class="box">
@@ -229,6 +254,17 @@ function scrambleIn(el){
     if(done<q.length)requestAnimationFrame(step);else el.textContent=final;
   })();
 }
+
+/* ---------- live previews ---------- */
+const SHOT={"https://northpointcapital.io/": "northpoint", "https://northpointcapital.io/trading/": "journal", "https://northpointcapital.io/academia.html": "academia", "https://studioamr.github.io/agrofin/": "abono", "https://studioamr.github.io/lunes/": "lunes", "https://studioamr.github.io/taller/": "taller", "https://studioamr.github.io/parfect/": "parfect", "https://studioamr.github.io/firmline/": "firmline", "https://studioamr.github.io/pulira/": "pulira", "https://studioamr.github.io/hearts/": "hearts", "https://studioamr.github.io/locus/": "locus"};
+const img=u=>`<img src="img/${SHOT[u]}.jpg" alt="" loading="lazy" width="1200" height="750">`;
+document.querySelectorAll('.pv').forEach(el=>{
+  el.innerHTML=el.dataset.pv.split(',').map(x=>{const [n,u]=x.split('|');return `<a href="${u}" target="_blank" rel="noopener"><div class="frame">${img(u)}</div><span>${n} →</span></a>`}).join('');
+});
+const REEL=[["Northpoint","Flagship platform","https://northpointcapital.io/"],["ABONO","Client app","https://studioamr.github.io/agrofin/"],["LUNES","Client landing","https://studioamr.github.io/lunes/"],["PARFECT","Own app","https://studioamr.github.io/parfect/"],["FIRMLINE","Landing page","https://studioamr.github.io/firmline/"],["PULIRA","Store","https://studioamr.github.io/pulira/"],["HEARTS","Browser game","https://studioamr.github.io/hearts/"],["NP Journal","Web app","https://northpointcapital.io/trading/"]];
+const reelHTML=REEL.map(([n,k,u])=>`<a class="card" href="${u}" target="_blank" rel="noopener"><div class="frame">${img(u)}</div><b>${n}</b><span>${k} · open live →</span></a>`).join('');
+document.getElementById('reel').innerHTML=reelHTML+reelHTML;
+
 
 /* ---------- three.js particle field that morphs per chapter ---------- */
 const N=window.innerWidth<700?5200:9000;
