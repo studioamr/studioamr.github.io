@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio AMR</title>
+<meta name="description" content="Studio AMR designs and builds landing pages and apps. Clear process first, then the build, then the numbers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://studioamr.github.io/">
+<meta property="og:title" content="Studio AMR · Landing pages and apps">
+<meta property="og:description" content="We design, build and measure landing pages and apps. Every project here is live and opens in your browser.">
+<meta property="og:image" content="https://studioamr.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='32' y='42' font-family='Georgia' font-size='26' fill='%23fff' text-anchor='middle'%3EAMR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--fg:#f2f2f2;--dim:#9a9a9a;--line:#1f1f1f;--serif:"Newsreader",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+nav{position:sticky;top:0;z-index:5;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+nav .brand{font-size:18px;letter-spacing:.02em}
+nav .brand b{font-weight:500}
+nav .links{display:flex;gap:26px;align-items:center}
+nav .links a{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);transition:color .2s}
+nav .links a:hover{color:var(--fg)}
+nav .links a.btn{color:#000}
+.btn{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:13px 20px;border:1px solid var(--fg);transition:background .2s,color .2s}
+.btn.solid{background:var(--fg);color:#000}
+.btn:hover{background:var(--fg);color:#000}
+nav .btn{padding:9px 14px}
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .wrap{position:relative;padding-top:130px;padding-bottom:120px}
+.hero h1{font-weight:300;font-size:clamp(52px,9vw,124px);line-height:.95;letter-spacing:-.03em;margin:22px 0 30px;max-width:11ch}
+.hero h1 em{font-style:italic}
+.hero p{font-size:23px;color:#d2d2d2;max-width:34ch}
+.hero .cta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+section{border-bottom:1px solid var(--line);padding:100px 0}
+.head{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-bottom:52px}
+.head h2{font-weight:300;font-size:clamp(32px,4.4vw,52px);line-height:1.05;letter-spacing:-.015em;max-width:18ch}
+.head h2 em{font-style:italic}
+/* services */
+.svc{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.svc div{padding:34px 30px 10px 0}
+.svc .n{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.12em}
+.svc h3{font-weight:400;font-size:30px;margin:14px 0 12px}
+.svc p{color:#bdbdbd;font-size:17px;max-width:30ch}
+/* work */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.item{background:#000;display:flex;flex-direction:column;transition:background .25s}
+.item:hover{background:#0b0b0b}
+.shot{position:relative;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);background:#0a0a0a}
+.shot iframe{position:absolute;top:0;left:0;width:250%;height:250%;transform:scale(.4);transform-origin:0 0;border:0;pointer-events:none}
+.item .meta{padding:22px 24px 26px;display:flex;flex-direction:column;gap:8px;flex:1}
+.item h3{font-weight:400;font-size:25px}
+.item p{color:#b8b8b8;font-size:16px;flex:1}
+.item .go{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.item:hover .go{color:var(--fg)}
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.steps div{padding:30px 26px 0 0}
+.steps b{display:block;font-weight:300;font-size:52px;line-height:1;margin-bottom:14px}
+.steps h4{font-weight:400;font-size:22px;margin-bottom:8px}
+.steps p{color:#bdbdbd;font-size:16px}
+.contact h2{font-weight:300;font-size:clamp(44px,7vw,92px);line-height:1;letter-spacing:-.02em;margin:18px 0 32px;max-width:14ch}
+.contact h2 em{font-style:italic}
+.contact p{color:#c8c8c8;max-width:46ch;margin-bottom:30px}
+footer{padding:34px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:900px){
+  body{font-size:17px}
+  nav .links a:not(.btn){display:none}
+  .hero .wrap{padding-top:72px;padding-bottom:72px}
+  .head{grid-template-columns:1fr;gap:12px}
+  .svc,.grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  section{padding:64px 0}
+  .wrap{padding:0 16px}
+}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="#top"><b>Studio</b> AMR</a>
+  <div class="links"><a href="#services">Services</a><a href="#work">Work</a><a href="#process">Process</a><a class="btn solid" href="#contact">Start a project</a></div>
+</div></nav>
+
+<header class="hero" id="top">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="wrap reveal">
+    <div class="mono">Studio AMR · Design and development · México</div>
+    <h1>Landing pages and <em>apps.</em></h1>
+    <p>We design, build and measure. Every project below is live and opens in your browser right now.</p>
+    <div class="cta"><a class="btn solid" href="#work">See the work</a><a class="btn" href="#contact">Start a project</a></div>
+  </div>
+</header>
+
+<section id="services"><div class="wrap">
+  <div class="head reveal"><div class="mono">01 · Services</div><h2>Three things, <em>done properly.</em></h2></div>
+  <div class="svc reveal">
+    <div><span class="n">01</span><h3>Landing pages</h3><p>One page with one job: explain the offer and get the next step. Fast, responsive, written to convert.</p></div>
+    <div><span class="n">02</span><h3>Web apps</h3><p>Tools people use every day: dashboards, journals, booking and inventory, with accounts and data that sync.</p></div>
+    <div><span class="n">03</span><h3>Measurement</h3><p>Analytics wired in from day one, so you know what the page or the app actually did for the business.</p></div>
+  </div>
+</div></section>
+
+<section id="work"><div class="wrap">
+  <div class="head reveal"><div class="mono">02 · Work</div><h2>Live projects, <em>not mockups.</em></h2></div>
+  <div class="grid reveal" id="grid"></div>
+</div></section>
+
+<section id="process"><div class="wrap">
+  <div class="head reveal"><div class="mono">03 · Process</div><h2>Clear process first, <em>then the build.</em></h2></div>
+  <div class="steps reveal">
+    <div><b>1</b><h4>Diagnose</h4><p>One call to understand the business, the customer and the single result the project has to move.</p></div>
+    <div><b>2</b><h4>Design</h4><p>Structure and copy before pixels. You approve what the page says before we decide how it looks.</p></div>
+    <div><b>3</b><h4>Build</h4><p>Hand-written code, fast on a phone, deployed on your domain. You see progress live, not at the end.</p></div>
+    <div><b>4</b><h4>Measure</h4><p>After launch we read the numbers together and change what is not working.</p></div>
+  </div>
+</div></section>
+
+<section id="contact" class="contact"><div class="wrap reveal">
+  <div class="mono">04 · Contact</div>
+  <h2>Have a page or an app <em>in mind?</em></h2>
+  <p>Tell us what you sell, who buys it and what you need the project to do. We reply with a clear plan.</p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap">
+    <a class="btn solid" href="mailto:andremacouzetruiz@gmail.com?subject=Project%20with%20Studio%20AMR">Email us</a>
+    <a class="btn" href="https://andremacouzetruiz.github.io/" target="_blank" rel="noopener">Meet the founder</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span class="mono">© 2026 Studio AMR</span>
+  <span class="mono">Founded by André Macouzet Ruiz</span>
+</div></footer>
+
+<script>
+const WORK=[
+  {n:"NORTHPOINT",k:"Web app",d:"Trading platform: journal, risk rules, backtesting and payout planning.",u:"https://studioamr.github.io/northpoint/"},
+  {n:"ABONO",k:"Web app",d:"Greenhouse software that tells the grower whether the cycle made money.",u:"https://studioamr.github.io/agrofin/"},
+  {n:"PARFECT",k:"Web app",d:"Golf analytics that finds the shot costing the most strokes.",u:"https://studioamr.github.io/parfect/"},
+  {n:"FIRMLINE",k:"Landing page",d:"AI receptionist for law firms: offer, demo and booking on one page.",u:"https://studioamr.github.io/firmline/"},
+  {n:"PULIRA",k:"Store",d:"Beauty-tech ecommerce with catalog, product pages and checkout flow.",u:"https://studioamr.github.io/pulira/"},
+  {n:"HEARTS",k:"Browser game",d:"A complete, playable game with AI opponents and ranked play.",u:"https://studioamr.github.io/hearts/"}
+];
+const g=document.getElementById('grid');
+g.innerHTML=WORK.map(w=>`<a class="item" href="${w.u}" target="_blank" rel="noopener">
+  <div class="shot" data-src="${w.u}"></div>
+  <div class="meta"><span class="mono">${w.k}</span><h3>${w.n}</h3><p>${w.d}</p><span class="go">Open live →</span></div></a>`).join('');
+const lazy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const f=document.createElement('iframe');f.src=e.target.dataset.src;f.loading='lazy';f.tabIndex=-1;f.setAttribute('aria-hidden','true');e.target.appendChild(f);lazy.unobserve(e.target)}}),{rootMargin:'400px'});
+document.querySelectorAll('.shot').forEach(s=>lazy.observe(s));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// dot grid that leans toward the cursor
+(()=>{
+  const c=document.getElementById('field'),x=c.getContext('2d');
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,mx=-999,my=-999;
+  function size(){const d=Math.min(devicePixelRatio||1,2);W=c.clientWidth;H=c.clientHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0)}
+  c.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+  c.parentElement.addEventListener('pointerleave',()=>{mx=my=-999});
+  function draw(){
+    x.clearRect(0,0,W,H);const s=28;
+    for(let y=s/2;y<H;y+=s)for(let i=s/2;i<W;i+=s){
+      const dx=i-mx,dy=y-my,d=Math.hypot(dx,dy),k=Math.max(0,1-d/220);
+      const fade=Math.min(1,Math.max(0,(i/W-.3)/.5));
+      x.fillStyle=`rgba(255,255,255,${(.08+.5*k)*fade})`;
+      x.beginPath();x.arc(i-dx*k*.12,y-dy*k*.12,.9+1.6*k,0,7);x.fill();
+    }
+    if(!still)requestAnimationFrame(draw);
+  }
+  size();addEventListener('resize',size);draw();
+})();
+</script>
+</body>
+</html>
